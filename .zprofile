@@ -53,10 +53,12 @@ LESS='-igSMRXF'
 # プロンプト（カレントブランチ名とか）
 # とりあえずbrew install zsh-git-prompt
 source "/usr/local/opt/zsh-git-prompt/zshrc.sh"
+
 # シングルクォートで書くこと
 PROMPT='
 %~ $(git_super_status) %n@%m %D %*
 %# '
+
 ZSH_THEME_GIT_PROMPT_PREFIX="("
 ZSH_THEME_GIT_PROMPT_SUFFIX=")"
 ZSH_THEME_GIT_PROMPT_SEPARATOR=" "
