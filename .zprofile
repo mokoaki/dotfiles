@@ -47,3 +47,11 @@ alias ll='gls -alivF --color=auto --group-directories-first'
 alias cp='cp -aiv'
 alias mv='mv -iv'
 alias rm='grm -Iv'
+
+LESS='-igSMRXF'
+
+# プロンプト（カレントブランチ名とか）
+# とりあえずbrew install zsh-git-prompt
+source "/usr/local/opt/zsh-git-prompt/zshrc.sh"
+# シングルクォートで書くこと
+PROMPT='%B%m%~%b$(git_super_status) %# '
