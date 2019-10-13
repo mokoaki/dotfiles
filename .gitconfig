@@ -1,0 +1,46 @@
+[alias]
+	s = status -uall
+	c = checkout
+	b = branch -vv --sort=authordate
+	d = diff
+	ignore = update-index --assume-unchanged
+	unignore = update-index --no-assume-unchanged
+	ignored = !git ls-files -v | grep \"^[a-z]\"
+	l = log --name-status --abbrev-commit --stat -10
+	delete-merged-local-branch = !git branch --merged master | grep -vE \"\\*| master$| develop$\" | xargs -n 1 git branch -d
+	a = add
+	unstage = reset --
+	df = diff --color-words --word-diff-regex=\"\\\\w+|[^[:space:]]\"
+	amend = commit --amend
+	pull = pull --ff-only
+	commmit = commit
+	unadd = reset --
+	cp = cherry-pick
+	lo = log --graph --all --pretty=format:\"%C(red)%h%C(reset) %C(green)[%an]%C(reset)%C(cyan)%d %C(reset)%C(yellow)[%s]%C(reset)\"
+	w = !git add -A && git commit -m \"wip\"
+	ldiff = diff --no-index
+	hide = update-index --skip-worktree
+	unhide = update-index --no-skip-worktree
+	comit = commit
+	difff = diff --word-diff --no-index
+[core]
+	pager = less -SMR
+	quotepath = false
+	ignorecase = false
+[user]
+	name = mokoaki
+	email = mokoriso@gmail.com
+[color]
+	ui = true
+[push]
+	default = current
+[pull]
+	ff = only
+[pager]
+	show = diff-highlight | less
+	log = diff-highlight | less
+	diff = diff-highlight | less
+[interactive]
+	diffFilter = diff-highlight
+[log]
+	date = iso-local
