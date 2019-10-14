@@ -9,9 +9,6 @@
 # /etc/zlogin
 # ~/.zlogin
 
-# 補完 compilation
-autoload -U compinit; compinit
-
 # 分割ファイルを読みこむ
 fragments_dir="./.zprofile.d"
 if [ -d $fragments_dir ] ; then

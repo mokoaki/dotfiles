@@ -5,8 +5,6 @@
 # /etc/zshrc
 # ~/.zshrc
 
-export LANG=ja_JP.UTF-8
-
 # export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init - zsh)"
 eval "$(nodenv init - zsh)"
