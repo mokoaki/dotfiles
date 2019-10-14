@@ -12,4 +12,6 @@ openssl libyaml libffi rbenv ruby-build \
 coreutils awscli \
 zsh zsh-git-prompt \
 nodenv node-build \
-yarn 2> /dev/null
+yarn \
+awscli aws-sam-cli \
+2> /dev/null
