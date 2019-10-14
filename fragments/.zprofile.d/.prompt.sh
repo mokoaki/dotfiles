@@ -1,4 +1,4 @@
-# とりあえずbrew install zsh-git-promptを使用
+# とりあえずbrew install zsh-git-promptを使用している
 source "/usr/local/opt/zsh-git-prompt/zshrc.sh"
 
 # シングルクォートで書くこと
