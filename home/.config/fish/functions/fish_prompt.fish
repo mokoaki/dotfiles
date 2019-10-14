@@ -76,14 +76,9 @@ function fish_prompt --description 'Write out the prompt'
       set suffix '$'
   end
 
-  # current directory
+  # out
   echo ""
-  echo -n (prompt_pwd)
-  echo -n " "
-  echo -n $USER
-  echo -n "@"
-  echo -n (prompt_hostname)
-
+  echo -n (prompt_pwd) $USER@(prompt_hostname)
   echo (__fish_vcs_prompt)
 
   if not test $last_status -eq 0
