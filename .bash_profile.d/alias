@@ -1,0 +1,30 @@
+if [ $(uname) == 'Darwin' ]; then
+  Mac='true'
+fi
+
+alias b='git b'
+alias c='git c'
+alias d='git d'
+alias g='git'
+alias gits='git s'
+alias l='git l'
+alias lo='git lo'
+alias s='git s'
+alias show='git show'
+alias wip='git w'
+
+alias ll='ls -alivF'
+alias cp='cp -aiv'
+alias mv='mv -iv'
+
+if [ -n "$Mac" ]; then
+  alias rm='rm -iv'
+else
+  alias rm='rm -Iv'
+fi
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+LESS='-igSMRXF'
