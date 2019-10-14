@@ -10,7 +10,7 @@
 # ~/.zlogin
 
 # 分割ファイルを読みこむ
-fragments_dir="./.zprofile.d"
+fragments_dir="./fragments/.zprofile.d"
 if [ -d $fragments_dir ] ; then
   for file in $fragments_dir/.??* ; do
     [ -d $file ] && continue
