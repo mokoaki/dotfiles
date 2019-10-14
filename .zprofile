@@ -12,9 +12,11 @@
 # 補完 compilation
 autoload -U compinit; compinit
 
-fragments_dir=".zsh.d"
-if [ -d ${fragments_dir} ] ; then
-  for file in ${fragments_dir}/.??* ; do
+# 分割ファイルを読みこむ
+fragments_dir="./.zprofile.d"
+if [ -d $fragments_dir ] ; then
+  for file in $fragments_dir/.??* ; do
+    [ -d $file ] && continue
     . $file
   done
   unset file
