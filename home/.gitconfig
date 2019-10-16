@@ -44,3 +44,5 @@
 	diffFilter = diff-highlight
 [log]
 	date = iso-local
+[diff]
+	compactionHeuristic = true
