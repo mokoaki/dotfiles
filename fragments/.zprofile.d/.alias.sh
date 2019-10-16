@@ -1,14 +1,16 @@
+# Gitのエイリアス
+alias a='git a'
+alias gitadd='git a'
+alias s='git s'
+alias ss='git s'
 alias b='git b'
 alias c='git c'
 alias d='git d'
-alias g='git'
-alias gits='git s'
 alias l='git l'
 alias lo='git lo'
-alias s='git s'
 alias show='git show'
+alias sh='git show'
 alias wip='git w'
-
 # glsとかは brew install coreutils
 alias ll='gls -alivF --color=auto --group-directories-first'
 alias cp='cp -aiv'
