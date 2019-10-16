@@ -5,6 +5,5 @@
 # /etc/zshrc
 # ~/.zshrc
 
-# export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init - zsh)"
 eval "$(nodenv init - zsh)"
