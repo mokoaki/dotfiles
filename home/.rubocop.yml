@@ -6,10 +6,11 @@ require:
 AllCops:
   # チェック対象外
   Exclude:
-    - db/schema.rb
-    - tmp/**/*
     - vendor/**/*
     - .bundle/**/*
+    - node_modules/**/*
+    - log/**/*
+    - tmp/**/*
 
 # 人生でクォートを直している時間は一体どれだけになるのか ダブルクォートで統一でいいかなと思い初めた
 Style/StringLiterals:
