@@ -16,8 +16,6 @@ yarn \
 awscli aws-sam-cli \
 2> /dev/null
 
-echo "
-# zsh
-sudo vi /etc/shells # /usr/local/bin/zsh を追記
-chsh -s /usr/local/bin/zsh
-"
+echo zsh
+echo sudo vi /etc/shells # /usr/local/bin/zsh を追記
+echo chsh -s /usr/local/bin/zsh
