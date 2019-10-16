@@ -1,1 +1,1 @@
-LESS='-igSMRXF'
+export LESS='-igSMRXF'
