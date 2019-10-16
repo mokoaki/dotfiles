@@ -37,4 +37,4 @@ GIT_PS1_SHOWUPSTREAM=auto
 
 
 # ハイライト
-export PATH="${PATH}:/usr/local/share/git-core/contrib/diff-highlight"
+#export PATH="${PATH}:/usr/local/share/git-core/contrib/diff-highlight"
