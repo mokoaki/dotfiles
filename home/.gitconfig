@@ -17,8 +17,7 @@
 	ignorelist = !echo \"  ignore可能なのはGit管理されているファイルのみです\\\\n\" && git ls-files -v | grep \"^[a-z]\"
 	l = log --name-status --abbrev-commit --stat -10
 	lo = log --graph --all --pretty=format:\"%C(red)%h%C(reset) %C(green)[%an]%C(reset)%C(cyan)%d %C(reset)%C(yellow)[%s]%C(reset)\"
-	pull = pull --ff-only
-	s = status -uall
+	s = status --short --branch
 	unadd = reset --
 	unstage = reset --
 	w = !git add -A && git commit -m \"wip\"
