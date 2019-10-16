@@ -1,5 +1,5 @@
 # 補完 compilation
-autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit -u
 zstyle ':completion:*' menu select interactive
 setopt menu_complete
 
