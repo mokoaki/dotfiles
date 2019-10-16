@@ -1,32 +1,31 @@
 [alias]
-	s = status -uall
-	c = checkout
-	b = branch -vv --sort=authordate
-	d = diff
-	ignore = update-index --assume-unchanged
-	unignore = update-index --no-assume-unchanged
-	ignored = !git ls-files -v | grep \"^[a-z]\"
-	l = log --name-status --abbrev-commit --stat -10
-	delete-merged-local-branch = !git branch --merged master | grep -vE \"\\*| master$| develop$\" | xargs -n 1 git branch -d
 	a = add
-	unstage = reset --
-	df = diff --color-words --word-diff-regex=\"\\\\w+|[^[:space:]]\"
 	amend = commit --amend
-	pull = pull --ff-only
+	b = branch -vv --sort=authordate
+	c = checkout
+	comit = commit
 	commmit = commit
-	unadd = reset --
 	cp = cherry-pick
-	lo = log --graph --all --pretty=format:\"%C(red)%h%C(reset) %C(green)[%an]%C(reset)%C(cyan)%d %C(reset)%C(yellow)[%s]%C(reset)\"
-	w = !git add -A && git commit -m \"wip\"
-	ldiff = diff --no-index
+	d = diff
+	delete-merged-local-branch = !git branch --merged master | grep -vE \"\\*| master$| develop$\" | xargs -n 1 git branch -d
+	difff = diff --no-index
 	hide = update-index --skip-worktree
 	unhide = update-index --no-skip-worktree
-	comit = commit
-	difff = diff --word-diff --no-index
+	hidelist = !echo \"  hide可能なのはGit管理されているファイルのみです\\\\n\" && git ls-files -v | grep ^S
+	ignore = update-index --assume-unchanged
+	unignore = update-index --no-assume-unchanged
+	ignorelist = !echo \"  ignore可能なのはGit管理されているファイルのみです\\\\n\" && git ls-files -v | grep \"^[a-z]\"
+	l = log --name-status --abbrev-commit --stat -10
+	lo = log --graph --all --pretty=format:\"%C(red)%h%C(reset) %C(green)[%an]%C(reset)%C(cyan)%d %C(reset)%C(yellow)[%s]%C(reset)\"
+	pull = pull --ff-only
+	s = status -uall
+	unadd = reset --
+	unstage = reset --
+	w = !git add -A && git commit -m \"wip\"
 [core]
+	ignorecase = false
 	pager = less -SMR
 	quotepath = false
-	ignorecase = false
 [user]
 	name = mokoaki
 	email = mokoriso@gmail.com
@@ -37,12 +36,10 @@
 [pull]
 	ff = only
 [pager]
-	show = diff-highlight | less
+	diff = diff-highlight | less # それぞれの出力にハイライトとlessを使う
 	log = diff-highlight | less
-	diff = diff-highlight | less
+	show = diff-highlight | less
 [interactive]
-	diffFilter = diff-highlight
+	diffFilter = diff-highlight # git add -p 時も空白をハイライトする
 [log]
 	date = iso-local
-[diff]
-	compactionHeuristic = true
