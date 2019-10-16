@@ -16,6 +16,8 @@ yarn \
 awscli aws-sam-cli \
 2> /dev/null
 
+brew doctor
+
 echo zsh
 echo sudo vi /etc/shells # /usr/local/bin/zsh を追記
 echo chsh -s /usr/local/bin/zsh
