@@ -1,8 +1,12 @@
 eval "$(rbenv init -)"
 eval "$(nodenv init -)"
 
-if [ -d .bash_profile.d ]; then
-  for file in fragments/.bash_profile.d/* ; do
+script_directory=`pwd`
+fragments_dir=${script_directory}/fragments/.bash_profile.d
+
+if [ -d $fragments_dir ] ; then
+  for file in $fragments_dir/.??*.sh ; do
+    [ -d $file ] && continue
     . $file
   done
   unset file
