@@ -10,7 +10,7 @@ brew install \
 git \
 openssl libyaml libffi rbenv ruby-build \
 coreutils awscli \
-zsh zsh-git-prompt \
+zsh zsh-git-prompt peco \
 nodenv node-build \
 yarn \
 awscli aws-sam-cli \
