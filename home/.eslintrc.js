@@ -3,18 +3,23 @@ module.exports = {
   "extends": [
     "standard"
   ],
-  // "env": {
-  //   "es6": true
-  // },
+  "env": {
+    // "jest/globals": true,
+    // "node": true,
+    // "commonjs": true,
+    // "sourceType": "script",
+    // "es6": true,
+    // "browser": true
+  },
+  // "plugins": [
+  //   "jest"
+  // ],
   "parserOptions": {
     "sourceType": "module",
-    "ecmaVersion": 2017
+    "ecmaVersion": 2019
   },
   "rules": {
-    "semi": ["off"],
-    "brace-style": [
-      "error",
-      "stroustrup"
-    ]
+    // "semi": ["off"],
+    "brace-style": ["error", "stroustrup"]
   }
 }
