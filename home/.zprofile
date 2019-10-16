@@ -9,10 +9,11 @@
 # /etc/zlogin
 # ~/.zlogin
 
+script_directory=`pwd`
+fragments_dir=${script_directory}/fragments/.zprofile.d
 # 分割ファイルを読みこむ
-fragments_dir="./fragments/.zprofile.d"
 if [ -d $fragments_dir ] ; then
-  for file in $fragments_dir/.??* ; do
+  for file in $fragments_dir/.??*.sh ; do
     [ -d $file ] && continue
     . $file
   done
