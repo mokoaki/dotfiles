@@ -11,10 +11,10 @@
 	difff = diff --no-index
 	hide = update-index --skip-worktree
 	unhide = update-index --no-skip-worktree
-	hidelist = !echo \"  hide可能なのはGit管理されているファイルのみです\\\\n\" && git ls-files -v | grep ^S
+	hidelist = !echo \"  hide可能なのはGit管理されているファイルのみです\\\\n\" && git ls-files -v | grep \"^S \"
 	ignore = update-index --assume-unchanged
 	unignore = update-index --no-assume-unchanged
-	ignorelist = !echo \"  ignore可能なのはGit管理されているファイルのみです\\\\n\" && git ls-files -v | grep \"^[a-z]\"
+	ignorelist = !echo \"  ignore可能なのはGit管理されているファイルのみです\\\\n\" && git ls-files -v | grep \"^h \"
 	l = log --name-status --abbrev-commit --stat -10
 	lo = log --graph --pretty=format:\"%C(red)%h%C(reset) %C(green)%cn%C(reset)%C(cyan)%d%C(reset) (%cd) %C(yellow)%s%C(reset)\" --date=short
 	s = status --short --branch
