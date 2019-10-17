@@ -13,8 +13,8 @@
 	unhide = update-index --no-skip-worktree
 	ignore = update-index --assume-unchanged
 	unignore = update-index --no-assume-unchanged
-	hidelist = !echo \"  hide(S),ignore(h)可能なのはGit管理されているファイルのみです\\\\n\" && git ls-files -v | grep \"^[Sh] \"
-	ignorelist = !echo \"  hide(S),ignore(h)可能なのはGit管理されているファイルのみです\\\\n\" && git ls-files -v | grep \"^[Sh] \"
+	hidelist = !echo \"  hide(S),ignore(h)可能なのはGit管理されているファイルのみです\\\\n\" && git ls-files -v | grep -E \"^[Sh] \"
+	ignorelist = hidelist
 
 	l = log --name-status --abbrev-commit --stat -10
 	lo = log --graph --pretty=format:\"%C(red)%h%C(reset) %C(green)%cn%C(reset)%C(cyan)%d%C(reset) (%cd) %C(yellow)%s%C(reset)\" --date=short
