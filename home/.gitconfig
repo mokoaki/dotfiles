@@ -17,7 +17,7 @@
 	ignorelist = hidelist
 
 	l = log --name-status --abbrev-commit --stat -10
-	lo = log --graph --pretty=format:\"%C(red)%h%C(reset) %C(green)%cn%C(reset)%C(cyan)%d%C(reset) (%cd) %C(yellow)%s%C(reset)\" --date=short
+	lo = log --graph --all --pretty=format:\"%C(red)%h%C(reset) %C(green)%cn%C(reset)%C(cyan)%d%C(reset) (%cd) %C(yellow)%s%C(reset)\" --date=short
 	s = status --short --branch
 	unadd = reset --
 	unstage = reset --
