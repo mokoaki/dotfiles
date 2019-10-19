@@ -18,3 +18,5 @@ if [ -d $fragments_dir ] ; then
   done
   unset file
 fi
+
+echo "loaded ~/.zprofile"

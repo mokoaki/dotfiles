@@ -7,3 +7,5 @@
 
 eval "$(rbenv init - zsh)"
 eval "$(nodenv init - zsh)"
+
+echo "loaded ~/.zshrc"

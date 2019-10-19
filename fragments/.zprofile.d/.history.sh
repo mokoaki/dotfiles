@@ -11,9 +11,9 @@ setopt hist_reduce_blanks    # 余分な空白は詰めて記録
 # setopt hist_expand
 
 function peco-history-selection() {
-    BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
-    CURSOR=$#BUFFER
-    zle reset-prompt
+  BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
+  CURSOR=$#BUFFER
+  zle reset-prompt
 }
 
 zle -N peco-history-selection
