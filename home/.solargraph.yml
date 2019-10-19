@@ -1,17 +1,16 @@
----
 include:
-- "**/*.rb"
+  - '**/*.rb'
 exclude:
-- spec/**/*
-- vendor/**/*
-- .bundle/**/*
-- node_modules/**/*
-- log/**/*
-- tmp/**/*
+  - '**/spec/**/*'
+  - '**/vendor/**/*'
+  - '**/.bundle/**/*'
+  - '**/node_modules/**/*'
+  - '**/log/**/*'
+  - '**/tmp/**/*'
 require: []
 domains: []
 # reporters:
-# - rubocop
-# - require_not_found
+#   - rubocop
+#   - require_not_found
 require_paths: []
-max_files: 10000
+max_files: 1000
