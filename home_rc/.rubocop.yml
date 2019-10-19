@@ -6,11 +6,11 @@ require:
 AllCops:
   # チェック対象外
   Exclude:
-    - vendor/**/*
-    - .bundle/**/*
-    - node_modules/**/*
-    - log/**/*
-    - tmp/**/*
+    - "**/vendor/**/*"
+    - "**/.bundle/**/*"
+    - "**/node_modules/**/*"
+    - "**/log/**/*"
+    - "**/tmp/**/*"
 
 # 人生でクォートを直している時間は一体どれだけになるのか ダブルクォートで統一でいいかなと思い初めた
 Style/StringLiterals:
@@ -32,29 +32,29 @@ Style/SymbolArray:
 Metrics/LineLength:
   Max: 80 # => デフォルト値:80
   Exclude:
-    - db/migrate/* # => チェック対象外
+    - "**/db/migrate/*" # => チェック対象外
 
 # class, module前にて説明を明記
 Style/Documentation:
   Exclude:
-    - db/migrate/* # => チェック対象外
+    - "**/db/migrate/*" # => チェック対象外
 
 # クラスは小さく心がける
 Metrics/ClassLength:
   Exclude:
-    - db/migrate/* # => チェック対象外
+    - "**/db/migrate/*" # => チェック対象外
 
 # モジュールは小さく心がける
 Metrics/ModuleLength:
   Exclude:
-    - db/migrate/* # => チェック対象外
+    - "**/db/migrate/*" # => チェック対象外
 
 # メソッドは小さく心がける
 Metrics/MethodLength:
   Exclude:
-    - db/migrate/* # => チェック対象外
+    - "**/db/migrate/*" # => チェック対象外
 
 # メソッドはシンプルに心がける
 Metrics/AbcSize:
   Exclude:
-    - db/migrate/* # => チェック対象外
+    - "**/db/migrate/*" # => チェック対象外
