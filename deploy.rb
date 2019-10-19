@@ -11,7 +11,8 @@ require "pathname"
 # 作っているつもりではある
 class Deploy
   def initialize
-    @local_rc_directory = File.expand_path("home", __dir__)
+    rc_directory = "home_rc"
+    @local_rc_directory = File.expand_path(rc_directory, __dir__)
   end
 
   def start
