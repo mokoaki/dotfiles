@@ -1,18 +1,17 @@
 # dotfiles
 
 ```text
-./home_rc/.hagerc
+./dotfiles/home_rc/.hagerc
 があるなら
-~/.hagerc => ./home_rc/.hagerc
-へリンクを貼る
-冪等性があり、既存ファイルを勝手に改変したりしないように
-作っているつもりではある
+~/.hagerc => ./dotfiles/home_rc/.hagerc
+へシンボリックリンクを貼る
+冪等性があり、既存ファイルを勝手に改変したりはしない
 ```
 
 ```sh
 cd ~/
-git clone git@github.com:mokoaki/.dotfiles.git
-cd .dotfiles
+git clone git@github.com:mokoaki/dotfiles.git
+cd dotfiles
 ./deploy.rb
 ```
 
