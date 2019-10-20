@@ -9,52 +9,61 @@ AllCops:
     - "**/vendor/**/*"
     - "**/.bundle/**/*"
     - "**/node_modules/**/*"
+    - "**/bin/**/*"
     - "**/log/**/*"
     - "**/tmp/**/*"
 
-# 人生でクォートを直している時間は一体どれだけになるのか ダブルクォートで統一でいいかなと思い初めた
+# 人生でクォートを直している時間は一体どれだけになるのか
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
-# コメントはASCII文字で記述 => disable
+# コメントは日本語で書いてもよい
 Style/AsciiComments:
   Enabled: false
 
-# ["a", "b", "c"] は %w表記にて記述 => disable
+# [String, String, String]は%w表記でなくてもよい
 Style/WordArray:
   Enabled: false
 
-# [:a, :b, :c] は %i表記にて記述 => disable
+# [Symbol, Symbol, Symbol]は%i表記でなくてもよい
 Style/SymbolArray:
   Enabled: false
 
-# 一行の長さチェック
-Metrics/LineLength:
-  Max: 80 # => デフォルト値:80
-  Exclude:
-    - "**/db/migrate/*" # => チェック対象外
+# Hashのリテラル後のカンマを許す（複数行時）
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
 
-# class, module前にて説明を明記
-Style/Documentation:
-  Exclude:
-    - "**/db/migrate/*" # => チェック対象外
+# Arrayのリテラル後のカンマを許す（複数行時）
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
 
-# クラスは小さく心がける
-Metrics/ClassLength:
-  Exclude:
-    - "**/db/migrate/*" # => チェック対象外
+# # 一行の長さチェック
+# Metrics/LineLength:
+#   Max: 80 # => デフォルト値:80
+#   Exclude:
+#     - "**/db/migrate/*" # => チェック対象外
 
-# モジュールは小さく心がける
-Metrics/ModuleLength:
-  Exclude:
-    - "**/db/migrate/*" # => チェック対象外
+# # class, module前にて説明を明記
+# Style/Documentation:
+#   Exclude:
+#     - "**/db/migrate/*" # => チェック対象外
 
-# メソッドは小さく心がける
-Metrics/MethodLength:
-  Exclude:
-    - "**/db/migrate/*" # => チェック対象外
+# # クラスは小さく心がける
+# Metrics/ClassLength:
+#   Exclude:
+#     - "**/db/migrate/*" # => チェック対象外
 
-# メソッドはシンプルに心がける
-Metrics/AbcSize:
-  Exclude:
-    - "**/db/migrate/*" # => チェック対象外
+# # モジュールは小さく心がける
+# Metrics/ModuleLength:
+#   Exclude:
+#     - "**/db/migrate/*" # => チェック対象外
+
+# # メソッドは小さく心がける
+# Metrics/MethodLength:
+#   Exclude:
+#     - "**/db/migrate/*" # => チェック対象外
+
+# # メソッドはシンプルに心がける
+# Metrics/AbcSize:
+#   Exclude:
+#     - "**/db/migrate/*" # => チェック対象外
