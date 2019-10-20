@@ -10,59 +10,73 @@ require "pathname"
 # 冪等性があり、既存ファイルを勝手に改変したりしないように
 # 作っているつもりではある
 class Deploy
-  def initialize
-    rc_directory = "home_rc"
-    @local_rc_directory = File.expand_path(rc_directory, __dir__)
-  end
-
   def start
-    Find.find(@local_rc_directory) do |rc_file_path|
-      next if File.ftype(rc_file_path) != "file"
-      next if File.extname(rc_file_path) == ".temp"
-
-      check_sym(rc_file_path)
+    rc_file_pathes.each do |rc_file_path|
+      check_symlink(rc_file_path)
     end
+
+    # インスタンス変数を消しておく　なんとなく
+    instance_variables.each { |ins_val| remove_instance_variable(ins_val) }
   end
 
   private
 
-  def check_sym(rc_file_path)
-    sym_path = sym_file_path(rc_file_path)
+  def home_rc_directory
+    "home_rc"
+  end
 
-    if FileTest.exist?(sym_path)
-      sym_exist(rc_file_path, sym_path)
+  def global_home_directory
+    @global_home_directory ||= ENV["HOME"]
+  end
+
+  def local_rc_directory
+    @local_rc_directory ||= File.expand_path(home_rc_directory, __dir__)
+  end
+
+  def rc_file_pathes
+    @rc_file_pathes ||= Find.find(local_rc_directory)
+                            .select { |path| File.ftype(path) == "file" }
+                            .reject { |path| File.extname(path) == ".temp" }
+  end
+
+  def check_symlink(rc_file_path)
+    symlink_path = symlink_file_path(rc_file_path)
+
+    if FileTest.exist?(symlink_path)
+      symlink_file_exist(rc_file_path, symlink_path)
     else
-      sym_not_exist(rc_file_path, sym_path)
+      symlink_file_not_exist(rc_file_path, symlink_path)
     end
   end
 
-  def sym_exist(rc_file_path, sym_path)
-    ftype = File.ftype(sym_path)
+  def symlink_file_exist(rc_file_path, symlink_path)
+    ftype = File.ftype(symlink_path)
 
-    if ftype == "link" && File.readlink(sym_path) == rc_file_path
-      puts ok_message(sym_path)
+    if ftype == "link" && File.readlink(symlink_path) == rc_file_path
+      puts ok_message(symlink_path)
     else
-      puts "exist #{ftype} #{sym_path}"
+      puts "exist #{ftype} #{symlink_path}"
     end
   end
 
-  def sym_not_exist(rc_file_path, sym_path)
-    sym_dir = File.dirname(sym_path)
-    FileUtils.mkdir_p(sym_dir) unless FileTest.exist?(sym_dir)
-    File.symlink(rc_file_path, sym_path)
+  def symlink_file_not_exist(rc_file_path, symlink_path)
+    symlink_dir = File.dirname(symlink_path)
+    FileUtils.mkdir_p(symlink_dir) unless FileTest.exist?(symlink_dir)
+    File.symlink(rc_file_path, symlink_path)
 
-    puts ok_message(sym_path)
+    puts ok_message(symlink_path)
   end
 
-  def ok_message(sym_path)
-    "#{File.readlink(sym_path).ljust(45, ' ')} <= link #{sym_path}"
+  def ok_message(symlink_path)
+    symlink_link = File.readlink(symlink_path)
+                       .ljust(@rc_file_pathes.map(&:size).max, " ")
+    "#{symlink_link} <= link #{symlink_path}"
   end
 
-  def sym_file_path(rc_file_path)
-    relative_path =
-      Pathname.new(rc_file_path).relative_path_from(@local_rc_directory)
-    home_directory = ENV["HOME"]
-    File.expand_path(relative_path, home_directory)
+  def symlink_file_path(rc_file_path)
+    relative_path = Pathname.new(rc_file_path)
+                            .relative_path_from(local_rc_directory)
+    File.expand_path(relative_path, global_home_directory)
   end
 end
 
