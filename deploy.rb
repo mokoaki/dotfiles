@@ -131,24 +131,28 @@ class Deploy
 
     def self_exist!
       if (ftype == "link") && (link_path == @rc_file.path)
-        @rc_file.add_log(:success, ok_message)
+        add_log(:success, ok_message)
       else
-        @rc_file.add_log(:error, "== ERROR exist #{@path} [#{ftype}]")
+        add_log(:error, "== ERROR exist #{@path} [#{ftype}]")
       end
     end
 
     def self_not_exist!
       FileUtils.mkdir_p(base_dir)
       File.symlink(@rc_file.path, @path)
-      @rc_file.add_log(:success, ok_message)
+      add_log(:success, ok_message)
     rescue StandardError => e
-      @rc_file.add_log(:error, "== ERROR mkdir #{base_dir} [#{e.message}]")
+      add_log(:error, "== ERROR mkdir #{base_dir} [#{e.message}]")
     end
 
     def ok_message
       rc_files_path_max_length = @rc_file.rc_files.map(&:path).map(&:size).max
       symlink_str = link_path.ljust(rc_files_path_max_length, " ")
       "#{symlink_str} <= #{ftype} #{@path}"
+    end
+
+    def add_log(*params)
+      @rc_file.add_log(*params)
     end
   end
 end
