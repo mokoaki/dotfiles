@@ -9,7 +9,7 @@
 # /etc/zlogin
 # ~/.zlogin
 
-fragments_dir=~/.dotfiles/fragments/.zprofile.d
+fragments_dir=./fragments/.zprofile.d
 
 if [ -d $fragments_dir ] ; then
   for file in $fragments_dir/.??*.sh ; do
