@@ -42,10 +42,18 @@ class Deploy
   end
 
   def rc_files
-    @rc_files ||= Find.find(local_rc_directory)
-                      .select { |path| File.ftype(path) == "file" }
-                      .reject { |path| File.extname(path) == ".temp" }
-                      .map { |rc_file_path| RcFile.new(rc_file_path, self) }
+    @rc_files ||= rc_file_pathes
+                  .map { |rc_file_path| RcFile.new(rc_file_path, self) }
+  end
+
+  def rc_files_path_max_length
+    @rc_files_path_max_length ||= rc_file_pathes.map(&:size).max
+  end
+
+  def rc_file_pathes
+    @rc_file_pathes ||= Find.find(local_rc_directory)
+                            .select { |path| File.ftype(path) == "file" }
+                            .reject { |path| path.end_with?(".temp") }
   end
 
   def add_log(flg, msg)
@@ -71,6 +79,10 @@ class Deploy
 
     def rc_files
       deploy.rc_files
+    end
+
+    def rc_files_path_max_length
+      deploy.rc_files_path_max_length
     end
 
     def add_log(*params)
@@ -145,9 +157,12 @@ class Deploy
     end
 
     def ok_message
-      rc_files_path_max_length = rc_file.rc_files.map(&:path).map(&:size).max
       symlink_str = link_path.ljust(rc_files_path_max_length, " ")
       "#{symlink_str} <= #{ftype} #{path}"
+    end
+
+    def rc_files_path_max_length
+      rc_file.rc_files_path_max_length
     end
 
     def add_log(*params)
