@@ -31,7 +31,8 @@ class Deploy
     @logs = { success: [], error: [] }
 
     puts "= START"
-    rc_files.each(&:start!)
+    # rc_files.each(&:start!)
+    rc_files.map { |rc| Thread.new(rc) { rc.start! } }.map(&:join)
     puts logs.values
     puts "= FINISH"
 
