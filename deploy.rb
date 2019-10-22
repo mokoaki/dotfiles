@@ -14,9 +14,15 @@ require "forwardable"
 # へのシンボリックリンクを張る
 ########################################
 class Deploy
-  HOME_RC_DIRECTORY = "./home_rc"
-
   attr_reader :logs
+
+  def home_rc_directory
+    "./home_rc/"
+  end
+
+  def home_directory
+    Dir.home
+  end
 
   def start!
     # インスタンス変数を全消去
@@ -33,7 +39,7 @@ class Deploy
   end
 
   def local_rc_directory
-    @local_rc_directory ||= File.expand_path(HOME_RC_DIRECTORY, __dir__)
+    @local_rc_directory ||= File.expand_path(home_rc_directory, __dir__)
   end
 
   def rc_files
@@ -63,6 +69,7 @@ class Deploy
     end
 
     def_delegator :@deploy, :local_rc_directory
+    def_delegator :@deploy, :home_directory
     def_delegator :@deploy, :rc_files
     def_delegator :@deploy, :add_log
 
@@ -78,7 +85,7 @@ class Deploy
     def symlink_file_path
       relative_path = Pathname.new(path)
                               .relative_path_from(local_rc_directory)
-      File.expand_path(relative_path, Dir.home)
+      File.expand_path(relative_path, home_directory)
     end
 
     ########################################
