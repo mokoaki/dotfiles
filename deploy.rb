@@ -5,6 +5,7 @@
 require "find"
 require "fileutils"
 require "pathname"
+require "forwardable"
 
 ########################################
 # ~/xxxxx/yyyyy
@@ -64,37 +65,32 @@ class Deploy
   # dotfiles/home_rc/xxxxx 毎のObject
   ########################################
   class RcFile
+    extend Forwardable
+
     attr_reader :path
-    attr_reader :deploy
 
     def initialize(path, deploy)
       @path = path
       @deploy = deploy
     end
 
+    def_delegator :@deploy, :local_rc_directory
+    def_delegator :@deploy, :global_home_directory
+    def_delegator :@deploy, :rc_files
+    def_delegator :@deploy, :rc_files_path_max_length
+    def_delegator :@deploy, :add_log
+
     def start!
       symlink_file = SymlinkFile.new(symlink_file_path, self)
       symlink_file.start!
-    end
-
-    def rc_files
-      deploy.rc_files
-    end
-
-    def rc_files_path_max_length
-      deploy.rc_files_path_max_length
-    end
-
-    def add_log(*params)
-      deploy.add_log(*params)
     end
 
     private
 
     def symlink_file_path
       relative_path = Pathname.new(path)
-                              .relative_path_from(deploy.local_rc_directory)
-      File.expand_path(relative_path, deploy.global_home_directory)
+                              .relative_path_from(local_rc_directory)
+      File.expand_path(relative_path, global_home_directory)
     end
   end
 
@@ -102,6 +98,8 @@ class Deploy
   # ~/xxxxx 毎のObject
   ########################################
   class SymlinkFile
+    extend Forwardable
+
     attr_reader :path
     attr_reader :rc_file
 
@@ -109,6 +107,9 @@ class Deploy
       @path = path
       @rc_file = rc_file
     end
+
+    def_delegator :rc_file, :rc_files_path_max_length
+    def_delegator :rc_file, :add_log
 
     def start!
       if exist?
@@ -159,14 +160,6 @@ class Deploy
     def ok_message
       symlink_str = link_path.ljust(rc_files_path_max_length, " ")
       "#{symlink_str} <= #{ftype} #{path}"
-    end
-
-    def rc_files_path_max_length
-      rc_file.rc_files_path_max_length
-    end
-
-    def add_log(*params)
-      rc_file.add_log(*params)
     end
   end
 end
