@@ -80,70 +80,76 @@ class Deploy
                               .relative_path_from(local_rc_directory)
       File.expand_path(relative_path, Dir.home)
     end
-  end
 
-  ########################################
-  # ~/xxxxx 毎のObject
-  ########################################
-  class SymlinkFile
-    extend Forwardable
+    ########################################
+    # ~/xxxxx 毎のObject
+    ########################################
+    class SymlinkFile
+      extend Forwardable
 
-    attr_reader :path
-    attr_reader :rc_file
+      attr_reader :path
+      attr_reader :rc_file
 
-    def initialize(path, rc_file)
-      @path = path
-      @rc_file = rc_file
-    end
-
-    def_delegator :rc_file, :add_log
-    def_delegator :rc_file, :rc_files
-
-    def start!
-      if exist?
-        self_exist!
-      else
-        self_not_exist!
+      def initialize(path, rc_file)
+        @path = path
+        @rc_file = rc_file
       end
-    end
 
-    private
+      def_delegator :rc_file, :add_log
+      def_delegator :rc_file, :rc_files
 
-    def link_path
-      File.readlink(path)
-    end
+      def start!
+        if exist?
+          self_exist!
+        else
+          self_not_exist!
+        end
+      end
 
-    def ftype
-      File.ftype(path)
-    end
+      private
 
-    def exist?
-      FileTest.exist?(path) || FileTest.symlink?(path)
-    end
+      def link_path
+        File.readlink(path)
+      end
 
-    def base_dir
-      @base_dir ||= File.dirname(path)
-    end
+      def ftype
+        File.ftype(path)
+      end
 
-    def self_exist!
-      if (ftype == "link") && (link_path == rc_file.path)
+      def link?
+        ftype == "link"
+      end
+
+      def exist?
+        # シンボリックリンクは存在していているが
+        # リンク先が存在しないだけかもしれないので両方チェック
+        FileTest.exist?(path) || FileTest.symlink?(path)
+      end
+
+      def base_dir
+        @base_dir ||= File.dirname(path)
+      end
+
+      def self_exist!
+        if link? && (link_path == rc_file.path)
+          add_log(:success, ok_message)
+        else
+          add_log(:error, "== ERROR exist #{path} [#{ftype}]")
+        end
+      end
+
+      def self_not_exist!
+        FileUtils.mkdir_p(base_dir)
+        File.symlink(rc_file.path, path)
         add_log(:success, ok_message)
-      else
-        add_log(:error, "== ERROR exist #{path} [#{ftype}]")
+      rescue StandardError => e
+        add_log(:error, "== ERROR mkdir #{base_dir} [#{e.message}]")
       end
-    end
 
-    def self_not_exist!
-      FileUtils.mkdir_p(base_dir)
-      File.symlink(rc_file.path, path)
-      add_log(:success, ok_message)
-    rescue StandardError => e
-      add_log(:error, "== ERROR mkdir #{base_dir} [#{e.message}]")
-    end
-
-    def ok_message
-      symlink_str = link_path.ljust(rc_files.map(&:path).map(&:size).max, " ")
-      "#{symlink_str} <= #{ftype} #{path}"
+      def ok_message
+        symlink_str = link_path.ljust(rc_files.map(&:path).map(&:size).max, " ")
+        "#{symlink_str} <= #{ftype} #{path}"
+      end
     end
   end
 end
