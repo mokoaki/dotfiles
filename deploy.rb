@@ -14,7 +14,7 @@ require "forwardable"
 # へのシンボリックリンクを張る
 ########################################
 class Deploy
-  HOME_RC_DIRECTORY = "home_rc"
+  HOME_RC_DIRECTORY = "./home_rc"
 
   attr_reader :logs
 
@@ -30,10 +30,6 @@ class Deploy
     puts "= FINISH"
 
     exit logs[:error].empty?
-  end
-
-  def global_home_directory
-    @global_home_directory ||= ENV["HOME"]
   end
 
   def local_rc_directory
@@ -52,7 +48,9 @@ class Deploy
   end
 
   ########################################
-  # dotfiles/home_rc/xxxxx 毎のObject
+  # dotfiles/home_rc/xxxxx 毎のobject
+  # いくつあってもよい
+  # サブディレクトリ以下に配置してもよい
   ########################################
   class RcFile
     extend Forwardable
@@ -65,7 +63,6 @@ class Deploy
     end
 
     def_delegator :@deploy, :local_rc_directory
-    def_delegator :@deploy, :global_home_directory
     def_delegator :@deploy, :rc_files
     def_delegator :@deploy, :add_log
 
@@ -76,10 +73,12 @@ class Deploy
 
     private
 
+    # dotfiles/home_rc/xxxxx 配下のディレクトリ構造を再現し
+    # homeディレクトリに配置されるシンボリックリンク毎のobject
     def symlink_file_path
       relative_path = Pathname.new(path)
                               .relative_path_from(local_rc_directory)
-      File.expand_path(relative_path, global_home_directory)
+      File.expand_path(relative_path, Dir.home)
     end
   end
 
