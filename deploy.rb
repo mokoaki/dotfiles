@@ -143,8 +143,7 @@ class Deploy
     end
 
     def ok_message
-      rc_files_path_max_length = rc_files.map(&:path).map(&:size).max
-      symlink_str = link_path.ljust(rc_files_path_max_length, " ")
+      symlink_str = link_path.ljust(rc_files.map(&:path).map(&:size).max, " ")
       "#{symlink_str} <= #{ftype} #{path}"
     end
   end
