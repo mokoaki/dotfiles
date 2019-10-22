@@ -43,18 +43,10 @@ class Deploy
   end
 
   def rc_files
-    @rc_files ||= rc_file_pathes
-                  .map { |rc_file_path| RcFile.new(rc_file_path, self) }
-  end
-
-  def rc_files_path_max_length
-    @rc_files_path_max_length ||= rc_file_pathes.map(&:size).max
-  end
-
-  def rc_file_pathes
-    @rc_file_pathes ||= Find.find(local_rc_directory)
-                            .select { |path| File.ftype(path) == "file" }
-                            .reject { |path| path.end_with?(".temp") }
+    @rc_files ||= Find.find(local_rc_directory)
+                      .select { |path| File.ftype(path) == "file" }
+                      .reject { |path| path.end_with?(".temp") }
+                      .map { |path| RcFile.new(path, self) }
   end
 
   def add_log(flg, msg)
@@ -77,7 +69,6 @@ class Deploy
     def_delegator :@deploy, :local_rc_directory
     def_delegator :@deploy, :global_home_directory
     def_delegator :@deploy, :rc_files
-    def_delegator :@deploy, :rc_files_path_max_length
     def_delegator :@deploy, :add_log
 
     def start!
@@ -108,8 +99,8 @@ class Deploy
       @rc_file = rc_file
     end
 
-    def_delegator :rc_file, :rc_files_path_max_length
     def_delegator :rc_file, :add_log
+    def_delegator :rc_file, :rc_files
 
     def start!
       if exist?
@@ -122,14 +113,10 @@ class Deploy
     private
 
     def link_path
-      raise "SymlinkFile#link_path [#{ftype}] [#{path}]" if ftype != "link"
-
       File.readlink(path)
     end
 
     def ftype
-      raise "SymlinkFile#ftype [No such file] [#{path}]" if exist? == false
-
       File.ftype(path)
     end
 
@@ -158,6 +145,7 @@ class Deploy
     end
 
     def ok_message
+      rc_files_path_max_length = rc_files.map(&:path).map(&:size).max
       symlink_str = link_path.ljust(rc_files_path_max_length, " ")
       "#{symlink_str} <= #{ftype} #{path}"
     end
