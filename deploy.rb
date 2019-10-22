@@ -13,15 +13,20 @@ require "pathname"
 # へのシンボリックリンクを張る
 ########################################
 class Deploy
+  attr_reader :logs
+
   def start!
+    # インスタンス変数を全消去
+    instance_variables.each { |ins_val| remove_instance_variable(ins_val) }
+
+    @logs = { success: [], error: [] }
+
     puts "= START"
-
     rc_files.each(&:start!)
-
-    puts @log.values
+    puts logs.values
     puts "= FINISH"
 
-    teardown
+    exit logs[:error].empty?
   end
 
   def home_rc_directory
@@ -43,18 +48,8 @@ class Deploy
                       .map { |rc_file_path| RcFile.new(rc_file_path, self) }
   end
 
-  def teardown
-    error_count = @log[:error].size
-
-    # インスタンス変数を全消去
-    instance_variables.each { |ins_val| remove_instance_variable(ins_val) }
-
-    exit error_count.zero?
-  end
-
   def add_log(flg, msg)
-    @log ||= { success: [], error: [] }
-    @log[flg] << msg
+    logs[flg] << msg
   end
 
   ########################################
@@ -62,6 +57,7 @@ class Deploy
   ########################################
   class RcFile
     attr_reader :path
+    attr_reader :deploy
 
     def initialize(path, deploy)
       @path = path
@@ -74,19 +70,19 @@ class Deploy
     end
 
     def rc_files
-      @deploy.rc_files
+      deploy.rc_files
     end
 
-    def add_log(flg, msg)
-      @deploy.add_log(flg, msg)
+    def add_log(*params)
+      deploy.add_log(*params)
     end
 
     private
 
     def symlink_file_path
-      relative_path = Pathname.new(@path)
-                              .relative_path_from(@deploy.local_rc_directory)
-      File.expand_path(relative_path, @deploy.global_home_directory)
+      relative_path = Pathname.new(path)
+                              .relative_path_from(deploy.local_rc_directory)
+      File.expand_path(relative_path, deploy.global_home_directory)
     end
   end
 
@@ -94,6 +90,9 @@ class Deploy
   # ~/xxxxx 毎のObject
   ########################################
   class SymlinkFile
+    attr_reader :path
+    attr_reader :rc_file
+
     def initialize(path, rc_file)
       @path = path
       @rc_file = rc_file
@@ -110,49 +109,49 @@ class Deploy
     private
 
     def link_path
-      raise "SymlinkFile#link_path [#{ftype}] [#{@path}]" if ftype != "link"
+      raise "SymlinkFile#link_path [#{ftype}] [#{path}]" if ftype != "link"
 
-      File.readlink(@path)
+      File.readlink(path)
     end
 
     def ftype
-      raise "SymlinkFile#ftype [No such file] [#{@path}]" if exist? == false
+      raise "SymlinkFile#ftype [No such file] [#{path}]" if exist? == false
 
-      File.ftype(@path)
+      File.ftype(path)
     end
 
     def exist?
-      FileTest.exist?(@path) || FileTest.symlink?(@path)
+      FileTest.exist?(path) || FileTest.symlink?(path)
     end
 
     def base_dir
-      @base_dir ||= File.dirname(@path)
+      @base_dir ||= File.dirname(path)
     end
 
     def self_exist!
-      if (ftype == "link") && (link_path == @rc_file.path)
+      if (ftype == "link") && (link_path == rc_file.path)
         add_log(:success, ok_message)
       else
-        add_log(:error, "== ERROR exist #{@path} [#{ftype}]")
+        add_log(:error, "== ERROR exist #{path} [#{ftype}]")
       end
     end
 
     def self_not_exist!
       FileUtils.mkdir_p(base_dir)
-      File.symlink(@rc_file.path, @path)
+      File.symlink(rc_file.path, path)
       add_log(:success, ok_message)
     rescue StandardError => e
       add_log(:error, "== ERROR mkdir #{base_dir} [#{e.message}]")
     end
 
     def ok_message
-      rc_files_path_max_length = @rc_file.rc_files.map(&:path).map(&:size).max
+      rc_files_path_max_length = rc_file.rc_files.map(&:path).map(&:size).max
       symlink_str = link_path.ljust(rc_files_path_max_length, " ")
-      "#{symlink_str} <= #{ftype} #{@path}"
+      "#{symlink_str} <= #{ftype} #{path}"
     end
 
     def add_log(*params)
-      @rc_file.add_log(*params)
+      rc_file.add_log(*params)
     end
   end
 end
