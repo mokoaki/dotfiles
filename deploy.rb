@@ -14,6 +14,8 @@ require "forwardable"
 # へのシンボリックリンクを張る
 ########################################
 class Deploy
+  HOME_RC_DIRECTORY = "home_rc"
+
   attr_reader :logs
 
   def start!
@@ -30,16 +32,12 @@ class Deploy
     exit logs[:error].empty?
   end
 
-  def home_rc_directory
-    "home_rc"
-  end
-
   def global_home_directory
     @global_home_directory ||= ENV["HOME"]
   end
 
   def local_rc_directory
-    @local_rc_directory ||= File.expand_path(home_rc_directory, __dir__)
+    @local_rc_directory ||= File.expand_path(HOME_RC_DIRECTORY, __dir__)
   end
 
   def rc_files
