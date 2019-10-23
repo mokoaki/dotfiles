@@ -14,7 +14,7 @@ fragments_dir=${HOME}/.zprofile.d
 if [ -d $fragments_dir ] ; then
   echo -n "loaded"
 
-  for file in $fragments_dir/.??*.sh ; do
+  for file in $fragments_dir/.??*.zsh ; do
     [ -d $file ] && continue
     . $file
     echo -n " `basename $file`"
