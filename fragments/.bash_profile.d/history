@@ -1,5 +1,0 @@
-HISTSIZE=10000
-HISTFILESIZE=20000
-HISTCONTROL=erasedups
-HISTIGNORE='?:rm *:exit' # 1文字のコマンドは履歴に残さない
-HISTTIMEFORMAT='%F %T '
