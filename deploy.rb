@@ -31,27 +31,29 @@ class Deploy
     @logs = { success: [], error: [] }
 
     puts "= START"
-    # rc_files.each(&:start!)
-    rc_files.map { |rc| Thread.new(rc) { rc.start! } }.map(&:join)
+    rc_files.each(&:start!)
     puts logs.values
     puts "= FINISH"
-
-    exit logs[:error].empty?
   end
 
   def local_rc_directory
     @local_rc_directory ||= File.expand_path(home_rc_directory, __dir__)
   end
 
-  def rc_files
-    @rc_files ||= Find.find(local_rc_directory)
-                      .select { |path| File.ftype(path) == "file" }
-                      .reject { |path| path.end_with?(".temp") }
-                      .map { |path| RcFile.new(path, self) }
+  def rc_file_pathes
+    @rc_file_pathes ||= Find.find(local_rc_directory)
+                            .select { |path| File.ftype(path) == "file" }
+                            .reject { |path| path.end_with?(".temp") }
   end
 
   def add_log(flg, msg)
     logs[flg] << msg
+  end
+
+  private
+
+  def rc_files
+    rc_file_pathes.map { |path| RcFile.new(path, self) }
   end
 
   ########################################
@@ -71,7 +73,7 @@ class Deploy
 
     def_delegator :@deploy, :local_rc_directory
     def_delegator :@deploy, :home_directory
-    def_delegator :@deploy, :rc_files
+    def_delegator :@deploy, :rc_file_pathes
     def_delegator :@deploy, :add_log
 
     def start!
@@ -84,8 +86,7 @@ class Deploy
     # dotfiles/home_rc/xxxxx 配下のディレクトリ構造を再現し
     # homeディレクトリに配置されるシンボリックリンク毎のobject
     def symlink_file_path
-      relative_path = Pathname.new(path)
-                              .relative_path_from(local_rc_directory)
+      relative_path = Pathname.new(path).relative_path_from(local_rc_directory)
       File.expand_path(relative_path, home_directory)
     end
 
@@ -104,7 +105,7 @@ class Deploy
       end
 
       def_delegator :rc_file, :add_log
-      def_delegator :rc_file, :rc_files
+      def_delegator :rc_file, :rc_file_pathes
 
       def start!
         if exist?
@@ -142,20 +143,23 @@ class Deploy
         if link? && (link_path == rc_file.path)
           add_log(:success, ok_message)
         else
-          add_log(:error, "== ERROR exist #{path} [#{ftype}]")
+          add_log(:error, " = ERROR exist #{path} [#{ftype}]")
         end
       end
 
       def self_not_exist!
-        FileUtils.mkdir_p(base_dir)
+        begin
+          FileUtils.mkdir_p(base_dir)
+        rescue StandardError => e
+          add_log(:error, " = ERROR mkdir #{base_dir} [#{e.message}]")
+        end
+
         File.symlink(rc_file.path, path)
         add_log(:success, ok_message)
-      rescue StandardError => e
-        add_log(:error, "== ERROR mkdir #{base_dir} [#{e.message}]")
       end
 
       def ok_message
-        symlink_str = link_path.ljust(rc_files.map(&:path).map(&:size).max, " ")
+        symlink_str = link_path.ljust(rc_file_pathes.map(&:size).max, " ")
         "#{symlink_str} <= #{ftype} #{path}"
       end
     end
