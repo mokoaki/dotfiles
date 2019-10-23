@@ -9,7 +9,7 @@
 # /etc/zlogin
 # ~/.zlogin
 
-fragments_dir=./fragments/.zprofile.d
+fragments_dir=${HOME}/.zprofile.d
 
 if [ -d $fragments_dir ] ; then
   echo -n "loaded"
