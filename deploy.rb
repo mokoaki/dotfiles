@@ -21,14 +21,12 @@ class Deploy
   end
 
   def home_directory
-    Dir.home
+    @home_directory ||= Dir.home
   end
 
   def start!
     # インスタンス変数を全消去
     instance_variables.each { |ins_val| remove_instance_variable(ins_val) }
-
-    @logs = { success: [], error: [] }
 
     puts "= START"
     rc_files.each(&:start!)
@@ -47,6 +45,7 @@ class Deploy
   end
 
   def add_log(flg, msg)
+    logs = { success: [], error: [] }
     logs[flg] << msg
   end
 
