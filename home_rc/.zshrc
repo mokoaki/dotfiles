@@ -1,11 +1,13 @@
-# インタラクティブシェル（ログインシェルとしてではない）としてzshが起動された場合に読み込まれる
-# リスト
-# /etc/zshenv
-# ~/.zshenv
-# /etc/zshrc
-# ~/.zshrc
-
 eval "$(rbenv init - zsh)"
 eval "$(nodenv init - zsh)"
 
-echo "loaded ~/.zshrc"
+fragments_dir=${HOME}/.zshrc.d
+
+if [ -d $fragments_dir ] ; then
+  for file in $fragments_dir/.??*.zsh ; do
+    [ -d $file ] && continue
+    . $file
+  done
+
+  unset file
+fi

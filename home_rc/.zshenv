@@ -1,5 +1,10 @@
-# Env
+fragments_dir=${HOME}/.zshenv.d
 
-export LANG=ja_JP.UTF-8
+if [ -d $fragments_dir ] ; then
+  for file in $fragments_dir/.??*.zsh ; do
+    [ -d $file ] && continue
+    . $file
+  done
 
-echo "loaded ~/.zshenv"
+  unset file
+fi
