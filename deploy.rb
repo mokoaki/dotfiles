@@ -28,10 +28,10 @@ class Deploy
     # インスタンス変数を全消去
     instance_variables.each { |ins_val| remove_instance_variable(ins_val) }
 
-    puts "= START"
+    add_log(:success, "= START")
     rc_files.each(&:start!)
     puts logs.values
-    puts "= FINISH"
+    add_log(:success, "= FINISH")
   end
 
   def local_rc_directory
@@ -45,7 +45,7 @@ class Deploy
   end
 
   def add_log(flg, msg)
-    logs = { success: [], error: [] }
+    @logs ||= { success: [], error: [] }
     logs[flg] << msg
   end
 
