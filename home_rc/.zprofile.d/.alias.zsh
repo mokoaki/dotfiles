@@ -12,7 +12,7 @@ alias show='git show'
 alias sh='git show'
 alias wip='git w'
 # glsとかは brew install coreutils
-alias ll='gls -alivF --color=auto --group-directories-first'
+alias ll='gls -lv --all --inode --classify --color=auto --group-directories-first --time-style=long-iso'
 alias cp='cp -aiv'
 alias mv='mv -iv'
 alias rm='grm -Iv'
