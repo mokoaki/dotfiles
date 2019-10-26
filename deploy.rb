@@ -14,8 +14,6 @@ require "forwardable"
 # へのシンボリックリンクを張る
 ########################################
 class Deploy
-  attr_reader :logs
-
   def home_rc_directory
     "./home_rc/"
   end
@@ -24,13 +22,20 @@ class Deploy
     @home_directory ||= Dir.home
   end
 
-  def start!
+  def initialize
     # インスタンス変数を全消去
     instance_variables.each { |ins_val| remove_instance_variable(ins_val) }
 
+    @logs = { success: [], error: [] }
+  end
+
+  def start!
+    # 毎回このメソッドが呼ばれる時に初期化したい
+    initialize
+
     add_log(:success, "= START")
     rc_files.each(&:start!)
-    puts logs.values
+    puts @logs.values
     add_log(:success, "= FINISH")
   end
 
@@ -45,8 +50,7 @@ class Deploy
   end
 
   def add_log(flg, msg)
-    @logs ||= { success: [], error: [] }
-    logs[flg] << msg
+    @logs[flg] << msg
   end
 
   private
