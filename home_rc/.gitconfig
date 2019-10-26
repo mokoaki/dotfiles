@@ -1,3 +1,8 @@
+# メモ
+#
+# 「あれ？origin/HEAD無くね？」と思ったなら
+# $ git remote set-head origin master
+
 [alias]
 	a = add
 	amend = commit --amend
