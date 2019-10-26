@@ -2,11 +2,10 @@
 
 xcode-select --install 2> /dev/null
 
-if ! type brew &> /dev/null ; then
+if ! which brew > /dev/null ; then
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-brrw upgrade
 brew install \
 git \
 openssl libyaml libffi rbenv ruby-build \
@@ -16,7 +15,7 @@ nodenv node-build \
 yarn \
 awscli aws-sam-cli \
 2> /dev/null
-
+brew upgrade
 brew doctor
 
 echo zsh
