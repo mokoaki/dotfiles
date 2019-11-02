@@ -18,10 +18,6 @@ class Deploy
     "./home_rc/"
   end
 
-  def home_directory
-    @home_directory ||= Dir.home
-  end
-
   def initialize
     # インスタンス変数を全消去
     instance_variables.each { |ins_val| remove_instance_variable(ins_val) }
@@ -69,15 +65,14 @@ class Deploy
 
     attr_reader :path
 
+    def_delegator :@deploy, :local_rc_directory
+    def_delegator :@deploy, :rc_file_pathes
+    def_delegator :@deploy, :add_log
+
     def initialize(path, deploy)
       @path = path
       @deploy = deploy
     end
-
-    def_delegator :@deploy, :local_rc_directory
-    def_delegator :@deploy, :home_directory
-    def_delegator :@deploy, :rc_file_pathes
-    def_delegator :@deploy, :add_log
 
     def start!
       symlink_file = SymlinkFile.new(symlink_file_path, self)
@@ -85,6 +80,10 @@ class Deploy
     end
 
     private
+
+    def home_directory
+      Dir.home
+    end
 
     # dotfiles/home_rc/xxxxx 配下のディレクトリ構造を再現し
     # homeディレクトリに配置されるシンボリックリンク毎のobject
@@ -102,13 +101,13 @@ class Deploy
       attr_reader :path
       attr_reader :rc_file
 
+      def_delegator :rc_file, :add_log
+      def_delegator :rc_file, :rc_file_pathes
+
       def initialize(path, rc_file)
         @path = path
         @rc_file = rc_file
       end
-
-      def_delegator :rc_file, :add_log
-      def_delegator :rc_file, :rc_file_pathes
 
       def start!
         if exist?
