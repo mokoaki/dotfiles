@@ -1,9 +1,7 @@
 module.exports = {
-  "root": true,
-  "extends": [
-    "standard"
-  ],
-  "env": {
+  root: true,
+  extends: ["standard"],
+  env: {
     // "jest/globals": true,
     // "node": true,
     // "commonjs": true,
@@ -14,12 +12,13 @@ module.exports = {
   // "plugins": [
   //   "jest"
   // ],
-  "parserOptions": {
-    "sourceType": "module",
-    "ecmaVersion": 2019
+  parserOptions: {
+    sourceType: "module",
+    ecmaVersion: 2019
   },
-  "rules": {
-    // "semi": ["off"],
+  rules: {
+    quotes: ["error", "double"],
+    semi: "off",
     "brace-style": ["error", "stroustrup"]
   }
 }
