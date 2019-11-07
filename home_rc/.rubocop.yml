@@ -29,6 +29,10 @@ Style/WordArray:
 Style/SymbolArray:
   Enabled: false
 
+# 空メソッドは1行で記述しなくてもよい
+Style/EmptyMethod:
+  Enabled: false
+
 # Hashのリテラル後のカンマを許す（複数行時）
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma

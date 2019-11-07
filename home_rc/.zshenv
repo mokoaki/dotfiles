@@ -39,11 +39,11 @@ setopt hist_reduce_blanks    # 余分な空白は詰めて記録
 setopt hist_expand           # 補完時に履歴を自動的に展開 (?)
 setopt hist_no_functions    # 関数定義のためのコマンドは履歴から削除する
 
-function peco-history-selection() {
-  BUFFER="$(history -nr 1 | awk '!a[$0]++' | peco --query "$LBUFFER" | sed 's/\\n/\n/')"
-  CURSOR=$#BUFFER
-  zle reset-prompt
-}
+# function peco-history-selection() {
+#   BUFFER="$(history -nr 1 | awk '!a[$0]++' | peco --query "$LBUFFER")"
+#   CURSOR=$#BUFFER
+#   zle reset-prompt
+# }
 
-zle -N peco-history-selection
-bindkey '^R' peco-history-selection
+# zle -N peco-history-selection
+# bindkey '^R' peco-history-selection
