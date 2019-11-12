@@ -21,7 +21,7 @@
 	hidelist = !echo \"  hide(S),ignore(h)可能なのはGit管理されているファイルのみです\\\\n\" && git ls-files -v | grep -E \"^[Sh] \"
 	ignorelist = hidelist
 
-	l = log --name-status --abbrev-commit --stat -10
+	l = log --name-status --abbrev-commit --stat
 	lo = log --graph --all --pretty=format:\"%C(red)%h%C(reset) %C(green)%cn%C(reset)%C(cyan)%d%C(reset) (%cd) %C(yellow)%s%C(reset)\" --date=short
 	s = status --short --branch
 	unadd = reset --
