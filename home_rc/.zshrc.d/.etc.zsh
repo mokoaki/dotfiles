@@ -21,7 +21,7 @@ setopt menu_complete
 # setopt no_tify              # バックグランドジョブが終了時知らせてくれる
 # setopt magic_equal_subst    # 引数での=以降も補完(--prefix=/usrなど)
 # setopt mark_dirs            # ファイル名の展開でディレクトリにマッチした場合末尾に / を付加する
-# setopt prompt_subst         # プロンプト定義内で変数置換やコマンド置換を扱う
+setopt prompt_subst         # プロンプト定義内で変数置換やコマンド置換を扱う
 # setopt print_exit_value     # 戻り値が 0 以外の場合終了コードを表示
 # setopt pushd_ignore_dups    # ディレクトリスタックに重複する物は古い方を削除
 
