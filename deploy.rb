@@ -14,6 +14,10 @@ require "forwardable"
 # へのシンボリックリンクを張る
 ########################################
 class Deploy
+  def home_directory
+    Dir.home
+  end
+
   def home_rc_directory
     "./home_rc/"
   end
@@ -66,6 +70,7 @@ class Deploy
 
     attr_reader :path
 
+    def_delegator :@deploy, :home_directory
     def_delegator :@deploy, :local_rc_directory
     def_delegator :@deploy, :rc_file_pathes
     def_delegator :@deploy, :add_log
@@ -81,10 +86,6 @@ class Deploy
     end
 
     private
-
-    def home_directory
-      Dir.home
-    end
 
     # dotfiles/home_rc/xxxxx 配下のディレクトリ構造を再現し
     # homeディレクトリに配置されるシンボリックリンク毎のobject
