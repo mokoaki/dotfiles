@@ -31,8 +31,9 @@ class Deploy
 
     add_log(:success, "= START")
     rc_files.each(&:start!)
-    puts @logs.values
     add_log(:success, "= FINISH")
+
+    puts @logs.values
   end
 
   def local_rc_directory
