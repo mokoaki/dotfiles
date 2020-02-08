@@ -1,0 +1,30 @@
+require:
+  - rubocop-performance
+
+# 人生でクォートを直している時間は一体どれだけになるのか
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# コメントは日本語で書いてもよい
+Style/AsciiComments:
+  Enabled: false
+
+# [String, String, String]は%w表記でなくてもよい
+Style/WordArray:
+  Enabled: false
+
+# [Symbol, Symbol, Symbol]は%i表記でなくてもよい
+Style/SymbolArray:
+  Enabled: false
+
+# 空メソッドは1行で記述しなくてもよい
+Style/EmptyMethod:
+  Enabled: false
+
+# Hashのリテラル後のカンマを許す（複数行時）
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+# Arrayのリテラル後のカンマを許す（複数行時）
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
