@@ -169,5 +169,3 @@ class Deploy
     end
   end
 end
-
-Deploy.new.start!

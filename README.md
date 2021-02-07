@@ -20,5 +20,5 @@ dotfiles/home_rc/.hagerc
 cd ~/
 git clone git@github.com:mokoaki/dotfiles.git
 cd dotfiles
-ruby deploy.rb
+deploy
 ```
