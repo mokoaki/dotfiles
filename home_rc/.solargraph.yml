@@ -12,4 +12,4 @@ domains: []
 #   - rubocop
 #   - require_not_found
 require_paths: []
-max_files: 1000
+max_files: 100
